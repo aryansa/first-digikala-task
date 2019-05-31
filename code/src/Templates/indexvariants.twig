@@ -1,0 +1,42 @@
+{% extends 'base.twig' %}
+{% block content %}
+    <a href="/admin/managevariants/new/">
+        <button type="button" class="btn btn-warning">Creat New Variant</button>
+    </a>
+    <table style="
+       width: 50%;
+    margin: 0 auto;
+    margin-top: 10%;
+"
+           class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product</th>
+            <th scope="col">Color</th>
+            <th scope="col">Price</th>
+            <th scope="col">Handel</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for variant in variants %}
+            <tr>
+                <th scope="row">{{ variant.id }}</th>
+                <td>{{ variant.product.title }}</td>
+                <td>{{ variant.color.name }}</td>
+                <td>{{ variant.price }}</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="/admin/managevariants/delete/{{ variant.id }}?pid={{ variant.product.id }}">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </a>
+                        <a href="/admin/managevariants/update/{{ variant.id }}">
+                            <button type="button" class="btn btn-warning">Edit</button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

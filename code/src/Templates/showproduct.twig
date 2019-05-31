@@ -1,0 +1,32 @@
+{% extends 'base.twig' %}
+{% block content %}
+    <div class="card bg-light mb-3" >
+        <div class="card-header">{{ product.title }}</div>
+        <div class="card-body">
+            <p class="card-text">{{ product.description }}</p>
+            color :
+            <select class="form-control" id="color_id">
+                <option value="-1">Select</option>
+                {% for variant in variants %}
+                    <option value="{{ variant.price }} ">{{ variant.color.name }}</option>
+                {% endfor %}
+
+
+            </select>
+            <br>
+            price : <p id="price" >
+                chose color
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#color_id').on('change', function() {
+            $("#price").html(
+                this.value
+            );
+        });
+    </script>
+{% endblock %}

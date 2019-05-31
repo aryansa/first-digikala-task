@@ -1,0 +1,15 @@
+{% extends 'base.twig' %}
+{% block content %}
+    {% for message in messages %}
+        message
+    {% endfor %}
+    <div style="width: 50%;margin: 0 auto; margin-top: 10%;">
+        <form method="post" action="{{ action }}">
+            <div class="form-group">
+                <label>Name</label>
+                <input value="{{ color.name }}" type="text" class="form-control" name="name" placeholder="Enter name">
+            </div>
+            <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

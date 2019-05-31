@@ -1,0 +1,41 @@
+{% extends 'base.twig' %}
+{% block content %}
+    <a href="/admin/manageproduct/new/">
+        <button type="button" class="btn btn-warning">Creat New Product</button>
+    </a>
+    <table style="
+       width: 50%;
+    margin: 0 auto;
+    margin-top: 10%;
+"
+           class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Handel</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <td>{{ product.title }}</td>
+                <td>{{ product.description }}</td>
+
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="/admin/manageproduct/delete/{{ product.id }}">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </a>
+                        <a href="/admin/manageproduct/update/{{ product.id }}">
+                            <button type="button" class="btn btn-warning">Edit</button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,13 @@
+database:
+  username: root
+  pass: root
+  database_name: digikala
+  host: mysql
+  port: 3306
+elasticsearch:
+  host: elasticsearch
+  port: 9200
+  index: products
+memcached:
+  host: memcached
+  port: 11211

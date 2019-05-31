@@ -1,0 +1,1 @@
+/usr/bin/php -S 0.0.0.0:9092 -t /code/root

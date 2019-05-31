@@ -1,0 +1,39 @@
+{% extends 'base.twig' %}
+{% block content %}
+    <a href="/admin/managecolors/new/">
+        <button type="button" class="btn btn-warning">Creat New Color</button>
+    </a>
+    <table style="
+       width: 50%;
+    margin: 0 auto;
+    margin-top: 10%;
+"
+           class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">Handel</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for color in colors %}
+            <tr>
+                <th scope="row">{{ color.id }}</th>
+                <td>{{ color.name }}</td>
+
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="/admin/managecolors/delete/{{ color.id }}">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </a>
+                        <a href="/admin/managecolors/update/{{ color.id }}">
+                            <button type="button" class="btn btn-warning">Edit</button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.twig' %}
+{% block content %}
+    {% for message in messages %}
+        message
+    {% endfor %}
+
+    <div style="width: 50%;margin: 0 auto; margin-top: 10%;">
+        <form method="post" action="{{ action }}">
+            <div class="form-group">
+
+                <label>Product</label>
+                <select class="form-control" name="product_id">
+                    {% for product in products %}
+
+                        <option value="{{ product.id }}" {{ (product.id == variant.product.id) ? 'selected' : '' }}>{{ product.title }}</option>
+                    {% endfor %}
+
+                </select>
+                <label>Color</label>
+                <select class="form-control" name="color_id">
+
+                    {% for color in colors %}
+                        <option value="{{ color.id }} " {{ (color.id == values.color.id) ? 'selected' : '' }}>{{ color.name }}</option>
+                    {% endfor %}
+
+                </select>
+                <label>Price</label>
+                <input type="text" value="{{ variant.price }}" class="form-control" name="price">
+            </div>
+            <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
