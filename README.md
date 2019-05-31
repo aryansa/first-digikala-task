@@ -10,7 +10,7 @@ Open the folder and run:
 docker-compose up
 ```
 
-Then create a database:
+Wait for `composer update`, then create a database:
 ```
 # root:root@localhost:3307
 CREATE DATABASE digikala;
