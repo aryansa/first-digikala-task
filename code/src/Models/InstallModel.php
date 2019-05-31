@@ -44,24 +44,21 @@ class InstallModel
       constraint Users_mail_uindex
       unique (mail)
     );", "create table variants
-    (
-      id         int auto_increment
-        primary key,
-      product_id int null,
-      color_id   int null,
-      price      int null,
-      constraint variants___color
-      foreign key (color_id) references color (id),
-      constraint variants_products_id_fk
-      foreign key (product_id) references products (id)
-        on update set null
-        on delete set null
-    );", "create index variants__price
-      on variants (price);
-    ", "
-    create index variants_product_id_index
-      on variants (product_id);
-    ", "INSERT INTO users (mail, user_name, password, create_date)
+(
+  id         int auto_increment
+    primary key,
+  product_id int null,
+  color_id   int null,
+  price      int null,
+  constraint variants___color
+  foreign key (color_id) references color (id),
+  constraint variants_products_id_fk
+  foreign key (product_id) references products (id)
+);", "create index variants__price
+  on variants (price);
+    ","create index variants_product_id_index
+  on variants (product_id);
+  ", "INSERT INTO users (mail, user_name, password, create_date)
     VALUES ('admin@digikala.com', 'Admin', MD5('1234'), NOW())"];
 
         foreach ($query as $item) {
