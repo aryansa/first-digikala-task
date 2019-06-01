@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aryanpc
- * Date: 5/21/19
- * Time: 12:33 AM
- */
 
 namespace App;
 
-use App\Services\SessionService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +43,7 @@ class App
 
 
     }
+
     /**
      * @return mixed
      */
@@ -60,6 +54,7 @@ class App
 
         return self::$dispatcher;
     }
+
     /**
      * @return mixed
      */
