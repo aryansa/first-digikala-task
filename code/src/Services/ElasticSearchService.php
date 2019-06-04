@@ -78,7 +78,7 @@ class ElasticSearchService
                     $product['title'],
                     $product['description']
                 ],
-                $product
+                'prd' => $product
             ],
         ]);
     }
@@ -95,11 +95,13 @@ class ElasticSearchService
             'index' => 'prd',
             'type' => '_doc',
             'body' => [
+
                 'query' => [
                     'bool' => [
                         'must' => [],
                         'filter' => []
                     ]
+
                 ]
             ]
         ];
@@ -108,28 +110,28 @@ class ElasticSearchService
             $query['body']['query']['bool']['must'] = [
                 'multi_match' => [
                     'query' => $productSearch->getKeyword(),
-                    'fields' => ['title', 'description']
+                    'fields' => ['prd.title', 'prd.description']
                 ]
             ];
         }
 
         if (!empty($productSearch->getMinPrice()) || !empty($productSearch->getMaxPrice())) {
             $query['body']['query']['bool']['filter']['range'] = [
-                'variants.price' => []
+                'prd.variants.price' => []
             ];
 
             if (!empty($productSearch->getMaxPrice())) {
-                $query['body']['query']['bool']['filter']['range']['variants.price']['lte'] = $productSearch->getMaxPrice();
+                $query['body']['query']['bool']['filter']['range']['prd.variants.price']['lte'] = $productSearch->getMaxPrice();
             }
 
             if (!empty($productSearch->getMinPrice())) {
-                $query['body']['query']['bool']['filter']['range']['variants.price']['gte'] = $productSearch->getMinPrice();
+                $query['body']['query']['bool']['filter']['range']['prd.variants.price']['gte'] = $productSearch->getMinPrice();
             }
         }
 
         if (!empty($productSearch->getColors())) {
             $query['body']['query']['bool']['filter']['terms'] = [
-                'variants.color_id' => $productSearch->getColors()
+                'prd.variants.color_id' => $productSearch->getColors()
             ];
         }
 
