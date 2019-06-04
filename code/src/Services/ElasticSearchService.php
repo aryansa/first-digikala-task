@@ -165,17 +165,17 @@ class ElasticSearchService
             'body' => [
                 'query' => [
                     'term' => [
-                        "id" => $pid
+                        "_id" => $pid
                     ]
                 ],
                 'script' => [
                     'lang' => 'painless',
                     'inline' => '
-                        for(int i=0;i<ctx._source.variants.size();i++)
+                        for(int i=0;i<ctx._source.prd.variants.size();i++)
                         {
-                            if((ctx._source.variants.get(i)["id"]+"").equals(params.ids))
+                            if((ctx._source.prd.variants.get(i)["id"]+"").equals(params.ids))
                             {
-                                ctx._source.variants.remove(i);
+                                ctx._source.prd.variants.remove(i);
                             }
                         }',
                     'params' => [
