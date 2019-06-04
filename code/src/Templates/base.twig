@@ -22,15 +22,57 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group">
+                <form class="form-inline my-2 my-lg-0" action="/" method="get">
+                    <input class="form-control mr-sm-2" id="keyword" autocomplete="off" name="keyword" type="text"
+                           placeholder="Suggest" aria-label="Search">
+                    <div class="input-group-btn">
+                        <div class="btn-group" role="group">
+                            <div class="dropdown dropdown-lg">
+                                <div style="
+                                    position: absolute;
+                                    z-index: 1000;
+                                    float: left;
+                                    min-width: 10rem;
+                                    display: none;
+                                    padding: .5rem 0;
+                                    margin: .125rem 0 0;
+                                    font-size: 1rem;
+                                    color: #212529;
+                                    text-align: left;
+                                    list-style: none;
+                                    background-color: #fff;
+                                    background-clip: padding-box;
+                                    border: 1px solid rgba(0,0,0,.15);
+                                    border-radius: .25rem;
+                                    right: 100% !important;
+                                    top: 15px;
+                                    min-width: 14.5em;
+                                    padding: 10px; color: black;font-size: 15px;"
+                                     id="response" role="menu">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    </div>
 
 </nav>
-<div class="container">
+<div style="margin-bottom: 10px" class="container">
     {% block content %} {% endblock %}
 </div>
 <div style="
     background: #343a40;
     height: 40px;
-    position: absolute;
+    position: relative;
     bottom: 0px;
     width: 100%;
     color: #343a40;
@@ -44,6 +86,52 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script>
+    {{ source('./build/jquery.js') }}
+</script>
+<script>
+
+
+    $('document').ready(function () {
+
+        function creatlist(value) {
+            $('#response').append("<li><a style='color:black;' href='/view/" + value.id + "'><b>" + value.title + "</b>  " + value.description + " </a></li>")
+        }
+
+        $('#keyword').blur(function (e) {
+            $("#response").css("display", "none");
+        })
+        var timestamp = 0;
+        $('#keyword').keyup(function (e) {
+            if (event.timeStamp - timestamp > 2000) {
+                $("#response").css("display", "block");
+                $('#response').html('waiting ...')
+                $.ajax('/suggester/', {
+                    type: 'POST',  // http method
+                    data: {keyword: this.value},  // data to submit
+                    success: function (data) {
+                        var response = JSON.parse(data);
+                        $('#response').html(data.id);
+                        if (response.code == 404) {
+                            $('#response').html('no results ..')
+                            $('#show').click();
+                        }
+                        else {
+                            $('#response').html('');
+                            response.products.forEach(creatlist);
+                            $('#show').click();
+                        }
+
+                    },
+                    error: function () {
+                        $('#response').html('no results ..')
+                        $('#show').click();
+                    }
+                });
+            }
+        })
+    });
+</script>
 {% block scripts %} {% endblock %}
 </body>
 </html>

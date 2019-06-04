@@ -92,7 +92,6 @@ class MySqlService
         foreach ($cacheKeys as $primaryKey => $cacheKey) {
             $value = $cacheService->get($cacheKey);
             if (!empty($value)) {
-
                 $results[$primaryKey] = json_decode($value, 1);
             } else {
                 $getFromDb[$primaryKey] = $primaryKey;

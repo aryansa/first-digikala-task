@@ -24,15 +24,62 @@ class ElasticSearchService
         $this->es = ClientBuilder::create()
             ->setHosts(["$host:$port"])
             ->build();
+
+    }
+
+    public function suggest($keyword)
+    {
+        $result = $this->es->search([
+                'index' => 'prd',
+                'type' => '_doc',
+                'body' => [
+                    "suggest" => [
+                        "prd-suggest" => [
+                            "prefix" => $keyword,
+                            "completion" => [
+                                "field" => "suggest"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        );
+        $result = array_column($result['suggest']['prd-suggest'][0]['options'], '_id');
+        return $result;
     }
 
     public function index(array $product)
     {
+        $val = $this->es->indices()->exists(['index' => 'prd']);
+        if (!$val) {
+            $this->es->indices()->create([
+                'index' => 'prd',
+                'body' => [
+                    "mappings" => [
+                        "properties" => [
+                            "suggest" => [
+                                "type" => "completion"
+                            ],
+                            "title" => [
+                                "type" => "keyword"
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+        }
         $this->es->index([
-            'index' => 'products',
-            'type' => 'product',
+
+            'index' => 'prd',
+            'type' => '_doc',
             'id' => $product['id'],
-            'body' => $product
+            'body' => [
+                'suggest' => [
+                    $product['title'],
+                    $product['description']
+                ],
+                $product
+            ],
         ]);
     }
 
@@ -45,8 +92,8 @@ class ElasticSearchService
     public function search(ProductSearch $productSearch): array
     {
         $query = [
-            'index' => 'products',
-            'type' => 'product',
+            'index' => 'prd',
+            'type' => '_doc',
             'body' => [
                 'query' => [
                     'bool' => [
@@ -99,8 +146,8 @@ class ElasticSearchService
     public function delete(int $id): void
     {
         $params = [
-            'index' => 'products',
-            'type' => 'product',
+            'index' => 'prd',
+            'type' => '_doc',
             'id' => $id
         ];
         $this->es->delete($params);
@@ -110,8 +157,8 @@ class ElasticSearchService
     public function deleteVariant($pid, $id)
     {
         $update = [
-            'index' => 'products',
-            'type' => 'product',
+            'index' => 'prd',
+            'type' => '_doc',
 
             'body' => [
                 'query' => [

@@ -6,6 +6,7 @@ use App\Controllers\AdminColorsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminProductsController;
 use App\Controllers\AdminVariantsController;
+use App\Controllers\CompletionSuggesterController;
 use App\Controllers\InstallControllers;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
@@ -38,6 +39,7 @@ class Routes
         self::addRoute($routes, '/admin/managecolors/delete/{id}', AdminColorsController::class, "delete");
         self::addRoute($routes, '/view/{id}', ProductsController::class, "show");
         self::addRoute($routes, '/install/', InstallControllers::class, "install");
+        self::addRoute($routes, '/suggester/', CompletionSuggesterController::class, "index");
     }
     
     private static function addRoute(RouteCollection $routeCollection, string $url, string $controller, string $method)

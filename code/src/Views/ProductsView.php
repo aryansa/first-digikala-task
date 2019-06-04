@@ -69,6 +69,13 @@ class ProductsView
         return $this->getProducts($ids);
     }
 
+    public function productSuggest($keyword)
+    {
+        $ids = Services::elasticSearchService()->suggest($keyword);
+
+        return $this->getProducts($ids);
+
+    }
 
     public function getProductVariants(int $id)
     {
