@@ -24,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="input-group">
+            <div id="containerform" class="input-group">
                 <form class="form-inline my-2 my-lg-0" action="/" method="get">
                     <input class="form-control mr-sm-2" id="keyword" autocomplete="off" name="keyword" type="text"
                            placeholder="Suggest" aria-label="Search">
@@ -66,17 +66,9 @@
     </div>
 
 </nav>
-<div style="margin-bottom: 10px" class="container">
+<div style="margin-bottom: 10px" id="container" class="container">
     {% block content %} {% endblock %}
 </div>
-<div style="
-    background: #343a40;
-    height: 40px;
-    position: relative;
-    bottom: 0px;
-    width: 100%;
-    color: #343a40;
-"></div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -98,12 +90,12 @@
             $('#response').append("<li><a style='color:black;' href='/view/" + value.id + "'><b>" + value.title + "</b>  " + value.description + " </a></li>")
         }
 
-        $('#keyword').blur(function (e) {
+        $('#container').click(function (e) {
             $("#response").css("display", "none");
         })
         var timestamp = 0;
         $('#keyword').keyup(function (e) {
-            if (event.timeStamp - timestamp > 2000) {
+            if (event.timeStamp - timestamp > 1000) {
                 $("#response").css("display", "block");
                 $('#response').html('waiting ...')
                 $.ajax('/suggester/', {
